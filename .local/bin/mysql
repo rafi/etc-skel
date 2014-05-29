@@ -1,0 +1,2 @@
+#!/bin/bash
+exec /usr/bin/mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config" $@
