@@ -24,9 +24,6 @@ export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 # Set the session ssh-agent socket path (If it's not set)
 [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
-# Set vimrc's location and source it on vim startup
-export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-
 # directories:
 export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
 export COMPOSER_HOME="$XDG_DATA_HOME/composer"
