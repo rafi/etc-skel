@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+function psg() {
+	ps auxww | grep -i --color=always $* | grep -v grep
+}

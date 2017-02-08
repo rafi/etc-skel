@@ -1,0 +1,25 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
+#
+# github.com/rafi/.config bash/completion
+
+# Ubuntu bash completions aren't loaded automatically.
+if [ -f /etc/lsb-release ]; then
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		. /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		. /etc/bash_completion
+	fi
+fi
+
+# Load Git bash completion
+# https://github.com/git/git/blob/master/contrib/completion
+if [ -f "$PREFIX/share/bash-completion/completions/git" ]; then
+	. "$PREFIX/share/bash-completion/completions/git"
+elif [ -f "$PREFIX/share/git/completion/git-completion.bash" ]; then
+	. "$PREFIX/share/git/completion/git-completion.bash"
+elif [ -f "$PREFIX/share/git/contrib/completion/git-completion.bash" ]; then
+	. "$PREFIX/share/git/contrib/completion/git-completion.bash"
+fi
+
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :

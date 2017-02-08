@@ -1,0 +1,28 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
+#
+# github.com/rafi/.config bash/utils
+
+# Source all extra functions
+for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do
+	. "$func"
+done
+unset func
+
+# Git prompt helpers
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWCOLORHINTS=0
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWUPSTREAM="auto"
+if [ -f "$PREFIX/share/git/git-prompt.sh" ]; then
+	. "$PREFIX/share/git/git-prompt.sh"
+fi
+
+# https://github.com/rupa/z
+# Must be loaded _after_ setting PROMPT_COMMAND
+if [ -f "$PREFIX/lib/z.sh" ]; then
+	. "$PREFIX/lib/z.sh"
+fi
+
+# vim: set ft=sh ts=2 sw=2 tw=80 et :
