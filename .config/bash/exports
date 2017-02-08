@@ -1,77 +1,73 @@
-#!/bin/bash
-#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
 #
-# github.com/rafi bash exports
-# references:
-# - https://github.com/milomouse/dotfiles
-# - https://github.com/EvanPurkhiser/dots-personal
-
-export PATH="$HOME/.local/bin:$PATH:bin"
-
-# Set the systemd-style DBUS address
-export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/dbus
+# github.com/rafi/.config bash/exports
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export  XDG_CACHE_HOME="$HOME/.cache"
 export   XDG_DATA_HOME="$HOME/.local/share"
 
-export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
+export PREFIX=/usr
+export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
 
-export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
+# Python per user site-packages directory
+export PATH="$PATH:$HOME/.local/lib/python3.4/bin"
+export PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
-# Set the session ssh-agent socket path (If it's not set)
-[ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
+# Local bin
+export PATH="$HOME/.local/bin:$PATH:bin"
 
-# directories:
-export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
-export COMPOSER_HOME="$XDG_DATA_HOME/composer"
-export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
-
-hash npm 2>/dev/null && export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/config"
-
-hash psql       2>/dev/null && export          PSQLRC="$XDG_CONFIG_HOME/psql/config"
-hash gpg        2>/dev/null && export       GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
-hash virtualbox 2>/dev/null && export  VBOX_USER_HOME="$XDG_CONFIG_HOME/virtualbox"
-hash vagrant    2>/dev/null && export    VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
-
-# Always install ruby gems local to the user
-if hash gem 2>/dev/null
-then
-	export GEMRC="$XDG_CONFIG_HOME/gemrc/config"
-	export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
-	export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem/specs"
-	export PATH="$PATH:$GEM_HOME/bin"
+# Look for terminfo files under data
+if [ -d "$XDG_DATA_HOME/terminfo" ]; then
+	export TERMINFO="$XDG_DATA_HOME/terminfo"
+	export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:$PREFIX/share/terminfo"
 fi
 
-# configs:
-export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/config"
-export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
+export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
-
-# files:
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
-export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+export LESSKEY="$XDG_CONFIG_HOME/lesskey"
 
-# settings:
-export LESS="-eFiQwMXR"
-export LESSCHARSET="UTF-8"
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[00;35m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[00;47;30m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[00;34m'
-export GREP_OPTIONS="--color=auto"
+hash http 2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
+hash wget 2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
 
-# Custom flags:
+# Load only ranger's user config
+export RANGER_LOAD_DEFAULT_RC=FALSE
 
-# Detect if SSH connection
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-	export IS_SSH=1
+# IPython profile directory
+export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
+
+export PSQLRC="$XDG_CONFIG_HOME/psql/config"
+export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
+
+# GO configuration
+if hash go 2>/dev/null
+then
+	export GOPATH="$HOME/code/go"
+	export PATH="$PATH:$GOPATH/bin"
 fi
 
-#-------8<---------------------------------------------------------------------
+# Node NPM tool configuration
+if hash npm 2>/dev/null
+then
+	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+	export PATH="$PATH:$HOME/.local/lib/node/bin"
+fi
+
+# Ack configuration
+if hash ack 2> /dev/null
+then
+	export ACKRC="$XDG_CONFIG_HOME/ack/ackrc"
+	export ACK_PAGER_COLOR="less -x4SRFX"
+fi
+
+# Settings
+hash nvim 2>/dev/null && export MANPAGER="nvim -c 'set ft=man' -"
+export LESS="-FiQMXR"
+export LESSCHARSET="UTF-8"
+export GREP_OPTIONS="--color=auto --exclude-dir=.git"
+
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :
