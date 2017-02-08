@@ -1,3 +1,0 @@
-#!/bin/bash
-
-t() { Q=$2; : ${Q:="ERROR"}; tail -f $1 | sed "s/$Q/\x1B[1;47;31m&\x1B[0m/g"; }
