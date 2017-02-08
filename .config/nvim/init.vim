@@ -76,10 +76,6 @@ if has('vim_starting')
 	let g:loaded_man = 1
 	let g:loaded_matchit = 1
 	let g:loaded_matchparen = 1
-	let g:loaded_netrw = 1
-	let g:loaded_netrwPlugin = 1
-	let g:loaded_netrwFileHandlers = 1
-	let g:loaded_netrwSettings = 1
 	let g:loaded_rrhelper = 1
 	let g:loaded_ruby_provider = 1
 	let g:loaded_shada_plugin = 1
