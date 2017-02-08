@@ -141,7 +141,7 @@ if has('nvim') && $TERM !~# '^rxvt' && exists('+termguicolors')
 endif
 
 function! s:theme_reload(name)
-	let theme_path = $VIMPATH.'/themes/'.a:name.'.vim'
+	let theme_path = $VIMPATH.'/theme/'.a:name.'.vim'
 	if filereadable(theme_path)
 		execute 'source' fnameescape(theme_path)
 	endif
