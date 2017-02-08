@@ -8,7 +8,7 @@ if &compatible
 endif
 
 " Set main configuration directory, and where cache is stored.
-let $VIMPATH = fnamemodify(resolve(expand('<sfile>:p')), ':h:h')
+let $VIMPATH = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 let $VARPATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~/.cache').'/vim')
 
 function! s:source_file(path, ...) abort "{{{
