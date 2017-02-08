@@ -1,1 +1,6 @@
-registry = http://registry.npmjs.org/
+#email    =
+prefix   = ${HOME}/.local/lib/node
+cache    = ${XDG_CACHE_HOME}/node/npm
+nodedir  = ${XDG_CACHE_HOME}/node/gyp
+tmp      = /tmp
+#registry = http://registry.npmjs.org/
