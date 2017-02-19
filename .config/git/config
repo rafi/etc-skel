@@ -15,8 +15,6 @@
 	whitespace = trailing-space,space-before-tab
 [credential]
 	helper = cache --timeout=3600
-[init]
-	templatedir = ~/.config/git/template
 [pager]
 	show-branch = true
 	status = true
@@ -36,6 +34,8 @@
 	renames = copies
 	mnemonicprefix = true
 	compactionHeuristic = true
+[difftool "vimdiff"]
+	cmd = nvim -d \"$LOCAL\" \"$REMOTE\"
 [merge]
 	summary = true
 	verbosity = 1
