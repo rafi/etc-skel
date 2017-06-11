@@ -27,8 +27,8 @@ export HISTTIMEFORMAT='[%F %T] '
 export HISTIGNORE='pwd:jobs:ll:ls:l:fg:history:clear:exit'
 export HISTCONTROL=ignoreboth
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
-export EDITOR=nvim
-export VISUAL="$VISUAL"
+export VISUAL=nvim
+export EDITOR="$VISUAL"
 export PAGER=less
 
 # Source bash completions
