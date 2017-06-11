@@ -1,5 +1,3 @@
--- vim: se ft=psql :
-
 ------------------------------------------------------------------------------
 -- sources and inspiration:                                                                 --
 -- http://opensourcedbms.com/dbms/psqlrc-psql-startup-file-for-postgres/    --

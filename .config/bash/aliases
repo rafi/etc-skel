@@ -56,7 +56,7 @@ alias dfu="df -hT -x devtmpfs -x tmpfs"
 
 # Processes
 alias process='ps -ax'
-alias logout="pkill -KILL -u "
+alias psk='ps -ax | fzf | cut -d " " -f1 | xargs -o kill'
 alias pst='pstree -g 3 -ws'
 
 # XDG conformity
@@ -66,7 +66,7 @@ alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
 # Misc
 alias aspell="aspell -c -l en_US"
 alias cal='cal | grep -C6 "$(date +%e)"'
-alias ccat='pygmentize -O style=monokai -f console256 -g'
+alias ccat='pygmentize -P tabsize=2 -O style=monokai -f console256 -g'
 alias yank='xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"'
 alias put='xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"'
 alias fontcache='fc-cache -f -v'
@@ -80,7 +80,7 @@ if hash nvim 2>/dev/null; then
 	VIM=nvim
 	alias vim=$VIM
 	alias vless="$VIM -u $PREFIX/share/nvim/runtime/macros/less.vim"
-  alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' /usr/bin/vim"
+	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' /usr/bin/vim"
 else
 	VIM=vim
 	alias vless="$VIM -u $PREFIX/share/vim/vim74/macros/less.vim"

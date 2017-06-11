@@ -17,7 +17,6 @@ set-option -g set-titles-string '#T #W tmux{#S}:#I.#P'
 set-window-option -g automatic-rename on
 set-window-option -g xterm-keys on
 
-set-option -g set-remain-on-exit off
 
 # scrollback buffer size increase
 set-option -g history-limit 6000
@@ -171,12 +170,13 @@ set-window-option -g mode-keys vi
 bind-key C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
 bind-key C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
 
+unbind -Tcopy-mode-vi Enter
 bind-key Escape copy-mode
-bind-key -t vi-copy y copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
-bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy V select-line
-bind-key -t vi-copy C-v rectangle-toggle
-bind-key -t vi-copy Escape clear-selection
+bind-key -Tcopy-mode-vi y send -X copy-pipe-and-cancel "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
+bind-key -Tcopy-mode-vi v send -X begin-selection
+bind-key -Tcopy-mode-vi V send -X select-line
+bind-key -Tcopy-mode-vi C-v send -X rectangle-toggle
+bind-key -Tcopy-mode-vi Escape send -X clear-selection
 
 # Look n Feel
 #-------------------------------------------------
@@ -223,12 +223,12 @@ set-option -g status-left-length 15
 set-option -g status-left-fg colour254
 set-option -g status-left-bg colour241
 set-option -g status-left-attr none
-set-option -g status-left '#{?client_prefix,#[fg=colour0]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]#[fg=colour234,bg=colour236]░'
+set-option -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]#[fg=colour234,bg=colour236]░'
 set-option -g status-right-fg colour240
 set-option -g status-right-bg default
 set-option -g status-right-attr none
 set-option -g status-right-length 83
-set-option -g status-right "#(uptime | sed 's/^.*: //') #[fg=colour237]#[fg=colour245] #[fg=colour237]#[fg=colour250] #h "
+set-option -g status-right "#[fg=colour239] #(uptime | sed 's/^.*: //') #[fg=colour237]#[fg=colour245] #[fg=colour237]#[fg=colour250] #h "
 
 set-window-option -g window-style ''
 set-window-option -g window-active-style ''

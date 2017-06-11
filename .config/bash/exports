@@ -70,4 +70,9 @@ export LESS="-FiQMXR"
 export LESSCHARSET="UTF-8"
 export GREP_OPTIONS="--color=auto --exclude-dir=.git"
 
+if hash fzf 2>/dev/null
+then
+	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,y:yank --inline-info --reverse --height 50% --multi --preview 'highlight -O ansi -l {} 2> /dev/null || cat {}'"
+	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
+fi
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :
