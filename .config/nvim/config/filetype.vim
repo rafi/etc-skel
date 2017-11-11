@@ -23,7 +23,7 @@ augroup MyAutoCmd " {{{
 	" Don't do it when the position is invalid or when inside an event handler
 	autocmd BufReadPost *
 		\ if &ft !~ '^git\c' && ! &diff && line("'\"") > 0 && line("'\"") <= line("$")
-		\|   exe 'normal! g`"zvzz'
+		\|   execute 'normal! g`"zvzz'
 		\| endif
 
 	" Disable paste and/or update diff when leaving insert mode
@@ -36,6 +36,12 @@ augroup MyAutoCmd " {{{
 
 	autocmd FileType crontab setlocal nobackup nowritebackup
 
+	autocmd FileType docker-compose setlocal expandtab
+
+	autocmd FileType gitcommit setlocal spell
+
+	autocmd FileType gitcommit,qfreplace setlocal nofoldenable
+
 	autocmd FileType zsh setlocal foldenable foldmethod=marker
 
 	" Improved HTML include pattern
@@ -44,8 +50,8 @@ augroup MyAutoCmd " {{{
 		\ | setlocal path+=./;/
 
 	autocmd FileType markdown
-		\ setlocal spell expandtab autoindent
-			\ formatoptions=tcroqn2 comments=n:>
+		\ set expandtab
+		\ | setlocal spell autoindent formatoptions=tcroqn2 comments=n:>
 
 	autocmd FileType apache setlocal path+=./;/
 
@@ -76,7 +82,7 @@ let g:python_highlight_all = 1
 " }}}
 " Vim {{{
 let g:vimsyntax_noerror = 1
-"let g:vim_indent_cont = 0
+let g:vim_indent_cont = &shiftwidth
 
 " }}}
 " Bash {{{
@@ -123,4 +129,5 @@ let g:php_phpdoc_folding = 1
 let g:perl_fold = 1
 " }}}
 " }}}
-" vim: set ts=2 sw=2 tw=80 noet :
+
+" vim: set foldmethod=marker ts=2 sw=2 tw=80 noet :

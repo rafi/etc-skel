@@ -2,7 +2,7 @@
 " General Settings
 "---------------------------------------------------------
 " General {{{
-set mouse=                   " Disable mouse
+set mouse=nv                 " Disable mouse in command-line mode
 set modeline                 " automatically setting options from modelines
 set report=0                 " Don't report on line changes
 set errorbells               " Trigger bell on error
@@ -37,7 +37,7 @@ set sessionoptions-=help
 set sessionoptions-=buffers
 set sessionoptions+=tabpages
 
-if ( ! has('nvim') || $DISPLAY !=? '') && has('clipboard')
+if has('clipboard')
 	set clipboard& clipboard+=unnamedplus
 endif
 
@@ -52,6 +52,7 @@ if has('wildmenu')
 	set wildignore+=.git,.hg,.svn,.stversions,*.pyc,*.spl,*.o,*.out,*~,%*
 	set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store
 	set wildignore+=**/node_modules/**,**/bower_modules/**,*/.sass-cache/*
+	set wildignore+=application/vendor/**,**/vendor/ckeditor/**,media/vendor/**
 	set wildignore+=__pycache__,*.egg-info
 endif
 
@@ -74,7 +75,7 @@ if has('nvim')
 	"   @ - Maximum number of items in the input-line history to be
 	"   s - Maximum size of an item contents in KiB
 	"   h - Disable the effect of 'hlsearch' when loading the shada
-	set shada='300,<10,@50,s100,h
+	set shada='300,<50,@100,s10,h
 else
 	set viminfo='300,<10,@50,h,n$VARPATH/viminfo
 endif
@@ -93,19 +94,14 @@ set smartindent     " Smart autoindenting on new lines
 set shiftround      " Round indent to multiple of 'shiftwidth'
 
 " }}}
-" Time {{{
-" --------
+" Timing {{{
+" ------
 set timeout ttimeout
 set timeoutlen=750  " Time out on mappings
-set updatetime=2000 " Idle time to write swap and trigger CursorHold
+set updatetime=1000 " Idle time to write swap and trigger CursorHold
 
 " Time out on key codes
-if has('nvim')
-	" https://github.com/neovim/neovim/issues/2017
-	set ttimeoutlen=-1
-else
-	set ttimeoutlen=250
-endif
+set ttimeoutlen=10
 
 " }}}
 " Searching {{{
@@ -152,20 +148,17 @@ endif
 set noshowmode          " Don't show mode in cmd window
 set shortmess=aoOTI     " Shorten messages and don't show intro
 set scrolloff=2         " Keep at least 2 lines above/below
-set sidescrolloff=5     " Keep at least 2 lines left/right
-set number              " Show line numbers
+set sidescrolloff=5     " Keep at least 5 lines left/right
+set nonumber            " Don't show line numbers
 set noruler             " Disable default status ruler
 set list                " Show hidden characters
 
 set showtabline=2       " Always show the tabs line
-set tabpagemax=15       " Maximum number of tab pages
-set winwidth=75         " Minimum width for current window
-set winminwidth=8       " Minimum width for inactive windows
-set winheight=10        " Minimum height for active window
-set winminheight=4      " Minimum height for inactive windows
-set pumheight=20        " Pop-up menu's line height
+set winwidth=30         " Minimum width for active window
+set winheight=1         " Minimum height for active window
+set pumheight=15        " Pop-up menu's line height
 set helpheight=12       " Minimum help window height
-set previewheight=10    " Completion preview height
+set previewheight=12    " Completion preview height
 
 set noshowcmd           " Don't show command in status line
 set cmdheight=2         " Height of the command line
@@ -194,6 +187,21 @@ endif
 " }}}
 " Folds {{{
 " -----
+
+" FastFold
+" Credits: https://github.com/Shougo/shougo-s-github
+autocmd MyAutoCmd TextChangedI,TextChanged *
+	\ if &l:foldenable && &l:foldmethod !=# 'manual' |
+	\   let b:foldmethod_save = &l:foldmethod |
+	\   let &l:foldmethod = 'manual' |
+	\ endif
+
+autocmd MyAutoCmd BufWritePost *
+	\ if &l:foldmethod ==# 'manual' && exists('b:foldmethod_save') |
+	\   let &l:foldmethod = b:foldmethod_save |
+	\   execute 'normal! zx' |
+	\ endif
+
 if has('folding')
 	set foldenable
 	set foldmethod=syntax
@@ -226,4 +234,4 @@ endfunction
 
 " }}}
 
-" vim: set ts=2 sw=2 tw=80 noet :
+" vim: set foldmethod=marker ts=2 sw=2 tw=80 noet :

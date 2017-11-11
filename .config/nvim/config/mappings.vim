@@ -9,13 +9,6 @@
 nnoremap  [Window]   <Nop>
 nmap      s [Window]
 
-" Tools prefix (Denite and NERDTree)
-nnoremap [Tools]  <Nop>
-xnoremap [Tools]  <Nop>
-nmap     , [Tools]
-nmap     ; [Tools]
-xmap     ; [Tools]
-
 " Fix keybind name for Ctrl+Spacebar
 map <Nul> <C-Space>
 map! <Nul> <C-Space>
@@ -42,6 +35,9 @@ nnoremap <S-Return> zMza
 nmap <BS> %
 xmap <BS> %
 
+nmap <Tab>  <C-w>w
+nmap <S-Tab>  <C-w>W
+
 "}}}
 " Global niceties {{{
 " ---------------
@@ -53,18 +49,18 @@ nnoremap ! :!
 cnoreabbrev qw wq
 cnoreabbrev Wq wq
 cnoreabbrev WQ wq
-cnoreabbrev Q q
 cnoreabbrev Qa qa
 cnoreabbrev Bd bd
 cnoreabbrev bD bd
-cnoreabbrev t tabe
-cnoreabbrev T tabe
 
 " Start new line from any cursor position
 inoremap <S-Return> <C-o>o
 
 " Quick substitute within selected area
 xnoremap s :s//g<Left><Left>
+
+nnoremap zl z5l
+nnoremap zh z5h
 
 " Improve scroll, credits: https://github.com/Shougo
 nnoremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
@@ -94,10 +90,6 @@ nnoremap < <<_
 " Select last paste
 nnoremap <expr> gp '`['.strpart(getregtype(), 0, 1).'`]'
 
-" Disable EX-mode
-nnoremap  Q <Nop>
-nnoremap gQ <Nop>
-
 " Navigation in command line
 cnoremap <C-j> <Left>
 cnoremap <C-k> <Right>
@@ -107,6 +99,12 @@ cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
 cnoremap <C-d> <C-w>
 
+" Switch history search pairs, matching my bash shell
+cnoremap <C-p>  <Up>
+cnoremap <C-n>  <Down>
+cnoremap <Up>   <C-p>
+cnoremap <Down> <C-n>
+
 " }}}
 " File operations {{{
 " ---------------
@@ -115,11 +113,11 @@ cnoremap <C-d> <C-w>
 map <Leader>cd :lcd %:p:h<CR>:pwd<CR>
 
 " Fast saving
-nnoremap <Leader>w :write<CR>
-vnoremap <Leader>w <Esc>:write<CR>
-nnoremap <C-s> :<C-u>write<CR>
-vnoremap <C-s> :<C-u>write<CR>
-cnoremap <C-s> <C-u>write<CR>
+nnoremap <silent><Leader>w :write<CR>
+vnoremap <silent><Leader>w <Esc>:write<CR>
+nnoremap <silent><C-s> :<C-u>write<CR>
+vnoremap <silent><C-s> :<C-u>write<CR>
+cnoremap <silent><C-s> <C-u>write<CR>
 
 " Save a file with sudo
 " http://forrst.com/posts/Use_w_to_sudo_write_a_file_with_Vim-uAN
@@ -129,11 +127,16 @@ cmap W!! w !sudo tee % >/dev/null
 " Editor UI {{{
 " ---------
 
-" Toggle paste mode
-set pastetoggle=<F2>
+" I like to :quit with 'q', shrug.
+nnoremap <silent> q :<C-u>:quit<CR>
+autocmd MyAutoCmd FileType man nnoremap <silent><buffer> q :<C-u>:quit<CR>
+
+" Macros
+nnoremap Q q
+nnoremap gQ @q
 
 " Show highlight names under cursor
-nmap gh :echo 'hi<'.synIDattr(synID(line('.'), col('.'), 1), 'name')
+nmap <silent> gh :echo 'hi<'.synIDattr(synID(line('.'), col('.'), 1), 'name')
 	\.'> trans<'.synIDattr(synID(line('.'), col('.'), 0), 'name').'> lo<'
 	\.synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name').'>'<CR>
 
@@ -148,6 +151,14 @@ nmap <silent> <Leader>tw :setlocal wrap! breakindent!<CR>
 nnoremap <silent> g0 :<C-u>tabfirst<CR>
 nnoremap <silent> g$ :<C-u>tablast<CR>
 nnoremap <silent> gr :<C-u>tabprevious<CR>
+nnoremap <silent> <A-j> :<C-U>tabnext<CR>
+nnoremap <silent> <A-k> :<C-U>tabprevious<CR>
+nnoremap <silent> <C-Tab> :<C-U>tabnext<CR>
+nnoremap <silent> <C-S-Tab> :<C-U>tabprevious<CR>
+" Uses g:lasttab set on TabLeave in MyAutoCmd
+let g:lasttab = 1
+nmap <silent> \\ :execute 'tabn '.g:lasttab<CR>
+
 
 " }}}
 " Totally Custom {{{
@@ -156,15 +167,20 @@ nnoremap <silent> gr :<C-u>tabprevious<CR>
 " Remove spaces at the end of lines
 nnoremap <silent> ,<Space> :<C-u>silent! keeppatterns %substitute/\s\+$//e<CR>
 
-" Diff
-nnoremap <silent> <expr> ,d ":\<C-u>".(&diff?"diffoff":"diffthis")."\<CR>"
-
 " C-r: Easier search and replace
-xnoremap <C-r> :<C-u>call VSetSearch('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
+xnoremap <C-r> :<C-u>call <SID>get_selection('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
+
+" Returns visually selected text
+function! s:get_selection(cmdtype) "{{{
+	let temp = @s
+	normal! gv"sy
+	let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
+	let @s = temp
+endfunction "}}}
 
 " Location list movement
-nmap <Leader>lj :lnext<CR>
-nmap <Leader>lk :lprev<CR>
+nmap <Leader>j :lnext<CR>
+nmap <Leader>k :lprev<CR>
 
 " Duplicate lines
 nnoremap <Leader>d m`YP``
@@ -175,25 +191,18 @@ vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
 nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
 
 " Yank buffer's absolute path to X11 clipboard
-nnoremap <Leader>y :let @+=expand("%:p")<CR>:echo 'Copied to clipboard.'<CR>
+nnoremap <Leader>y :let @+=expand("%")<CR>:echo 'Relative path copied to clipboard.'<CR>
+nnoremap <Leader>Y :let @+=expand("%:p")<CR>:echo 'Absolute path copied to clipboard.'<CR>
 
 " Drag current line/s vertically and auto-indent
 vnoremap mk :m-2<CR>gv=gv
 vnoremap mj :m'>+<CR>gv=gv
-noremap  <Leader>mk :m-2<CR>==
-noremap  <Leader>mj :m+<CR>==
+noremap  mk :m-2<CR>
+noremap  mj :m+<CR>
 
-" Last session management shortcuts
-nnoremap <Leader>se :<C-u>SessionSave last<CR>
-nnoremap <Leader>os :<C-u>execute 'source '.g:session_directory.'/last.vim'<CR>
-
-" Returns visually selected text
-function! VSetSearch(cmdtype) "{{{
-	let temp = @s
-	normal! gv"sy
-	let @/ = substitute(escape(@s, '\'.a:cmdtype), '\n', '\\n', 'g')
-	let @s = temp
-endfunction "}}}
+" Session management shortcuts
+nmap <silent> <Leader>se :<C-u>execute 'SessionSave' fnamemodify(resolve(getcwd()), ':p:gs?/?_?')<CR>
+nmap <silent> <Leader>os :<C-u>execute 'source '.g:session_directory.'/'.fnamemodify(resolve(getcwd()), ':p:gs?/?_?').'.vim'<CR>
 
 " Display diff from last save {{{
 command! DiffOrig vert new | setlocal bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
@@ -221,19 +230,18 @@ nnoremap <silent> [Window]o  :<C-u>only<CR>
 nnoremap <silent> [Window]b  :b#<CR>
 nnoremap <silent> [Window]c  :close<CR>
 nnoremap <silent> [Window]x  :<C-u>call <SID>BufferEmpty()<CR>
-nnoremap <silent><expr> q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
 
 " Split current buffer, go to previous window and previous buffer
 nnoremap <silent> [Window]sv :split<CR>:wincmd p<CR>:e#<CR>
 nnoremap <silent> [Window]sg :vsplit<CR>:wincmd p<CR>:e#<CR>
 
-function! s:BufferEmpty() "{{{
+function! s:BufferEmpty()
 	let l:current = bufnr('%')
 	if ! getbufvar(l:current, '&modified')
 		enew
 		silent! execute 'bdelete '.l:current
 	endif
-endfunction "}}}
-" }}}
+endfunction
+
 
 " vim: set ts=2 sw=2 tw=80 noet :
