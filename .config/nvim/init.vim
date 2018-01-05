@@ -122,9 +122,10 @@ function! s:theme_reload(name)
 	endif
 endfunction
 
+" THEME NAME
+let g:theme_name = 'rafi-2017'
 autocmd MyAutoCmd ColorScheme * call s:theme_reload(g:theme_name)
 
-let g:theme_name = 'rafi-2016'
 set background=dark
 colorscheme hybrid
 
