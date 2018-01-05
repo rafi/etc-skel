@@ -22,7 +22,7 @@ if get(g:, 'elite_mode')
 endif
 
 " Double leader key for toggling visual-line mode
-nmap <silent> <Leader><Leader> :nohlsearch<CR>V
+nmap <silent> <Leader><Leader> V
 vmap <Leader><Leader> <Esc>
 
 " Toggle fold
@@ -91,8 +91,6 @@ nnoremap < <<_
 nnoremap <expr> gp '`['.strpart(getregtype(), 0, 1).'`]'
 
 " Navigation in command line
-cnoremap <C-j> <Left>
-cnoremap <C-k> <Right>
 cnoremap <C-h> <Home>
 cnoremap <C-l> <End>
 cnoremap <C-f> <Right>

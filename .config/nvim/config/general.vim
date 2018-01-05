@@ -150,7 +150,7 @@ set shortmess=aoOTI     " Shorten messages and don't show intro
 set scrolloff=2         " Keep at least 2 lines above/below
 set sidescrolloff=5     " Keep at least 5 lines left/right
 set nonumber            " Don't show line numbers
-set noruler             " Disable default status ruler
+set ruler               " Enable default status ruler
 set list                " Show hidden characters
 
 set showtabline=2       " Always show the tabs line

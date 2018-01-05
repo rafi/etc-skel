@@ -4,11 +4,15 @@
 
 augroup MyAutoCmd " {{{
 
+	" Highlight current line only on focused window
+	autocmd WinEnter,InsertLeave * set cursorline
+	autocmd WinLeave,InsertEnter * set nocursorline
+
 	" Automatically set read-only for files being edited elsewhere
 	autocmd SwapExists * nested let v:swapchoice = 'o'
 
-	" More eager than 'autoread'.
-	autocmd WinEnter * checktime
+	" Check if file changed when its window is focus, more eager than 'autoread'
+	autocmd WinEnter,FocusGained * checktime
 
 	autocmd Syntax * if 5000 < line('$') | syntax sync minlines=200 | endif
 
