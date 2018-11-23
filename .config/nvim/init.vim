@@ -11,6 +11,14 @@ endif
 let $VIMPATH = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 let $VARPATH = expand(($XDG_CACHE_HOME ? $XDG_CACHE_HOME : '~/.cache').'/vim')
 
+" Search and use environments specifically made for Neovim.
+if isdirectory($VARPATH.'/venv/neovim2')
+	let g:python_host_prog = $VARPATH.'/venv/neovim2/bin/python'
+endif
+if isdirectory($VARPATH.'/venv/neovim3')
+	let g:python3_host_prog = $VARPATH.'/venv/neovim3/bin/python'
+endif
+
 function! s:source_file(path, ...) abort
 	let use_global = get(a:000, 0, ! has('vim_starting'))
 	let abspath = resolve(expand($VIMPATH.'/config/'.a:path))
@@ -85,14 +93,6 @@ let g:loaded_zipPlugin = 1
 if has('nvim')
 	" Write history on idle, for sharing among different sessions
 	autocmd MyAutoCmd CursorHold * if exists(':rshada') | rshada | wshada | endif
-
-	" Search and use environments specifically made for Neovim.
-	if isdirectory($VARPATH.'/venv/neovim2')
-		let g:python_host_prog = $VARPATH.'/venv/neovim2/bin/python'
-	endif
-	if isdirectory($VARPATH.'/venv/neovim3')
-		let g:python3_host_prog = $VARPATH.'/venv/neovim3/bin/python'
-	endif
 endif
 
 filetype plugin indent on

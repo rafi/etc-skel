@@ -74,7 +74,7 @@ noremap <expr> <C-y> (line("w0") <= 1         ? "k" : "3\<C-y>")
 
 " Window control
 nnoremap <C-q> <C-w>
-nnoremap <C-x> <C-w>x
+nnoremap <C-x> <C-w>x<C-w>w
 nnoremap <silent><C-w>z :vert resize<CR>:resize<CR>:normal! ze<CR>
 
 " Select blocks after indenting

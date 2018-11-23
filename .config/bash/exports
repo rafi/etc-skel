@@ -29,7 +29,7 @@ export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
-export LESSKEY="$XDG_CONFIG_HOME/lesskey"
+export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
 
 hash http 2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
 hash wget 2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"

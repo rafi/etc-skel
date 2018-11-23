@@ -40,7 +40,7 @@ augroup MyAutoCmd " {{{
 
 	autocmd FileType crontab setlocal nobackup nowritebackup
 
-	autocmd FileType docker-compose setlocal expandtab
+	autocmd FileType yaml.docker-compose setlocal expandtab
 
 	autocmd FileType gitcommit setlocal spell
 
